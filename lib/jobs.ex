@@ -12,7 +12,8 @@ defmodule RateLimitedServer.Jobs do
   end
 
   def status() do
-    GenServer.call(@name, :status) |> IO.inspect(label: "status():")
+    GenServer.call(@name, :status)
+    # |> IO.inspect(label: "status():")
   end
 
   def job_status(name, id) do
@@ -73,7 +74,7 @@ defmodule RateLimitedServer.Jobs do
       {true, {id, delay, func}} ->
         JobState.record_job_start(
           queue,
-          Process.send_after(self(), {:job, queue_name, id, func}, delay * 1000)
+          Process.send_after(self(), {:job, queue_name, id, func}, delay)
         )
 
       # nothing for now
@@ -108,25 +109,4 @@ defmodule RateLimitedServer.Jobs do
 
   defp update_queue(state, name, new_queue),
     do: %{state | queues: Map.put(state.queues, name, new_queue)}
-
-  # stubs to log if we get an unexpected call
-
-  # def terminate(reason, state) do
-  #   IO.puts("Jobs.terminate - #{inspect(reason)}, #{inspect(state)}")
-  # end
-
-  # def handle_cast(arg, state) do
-  #   IO.puts("Jobs.handle_cast - #{inspect(arg)}, #{inspect(state)}")
-  #   {:noreply, state}
-  # end
-
-  # def handle_call(arg, _from, state) do
-  #   IO.puts("Jobs: Unexpected handle_call: #{inspect(arg)}")
-  #   {:reply, nil, state}
-  # end
-
-  # def handle_info(msg, state) do
-  #   IO.puts("handle_info: #{inspect(self())} #{inspect(msg)}")
-  #   {:noreply, state}
-  # end
 end

@@ -13,7 +13,7 @@ defmodule RateLimitedServer.JobState do
 
   def status(js = %JobState{}) do
     %{
-      delay: js.delay,
+      delay: "#{js.delay}ms",
       timer: timer_str(js.timer),
       order: js.order,
       results:
@@ -92,7 +92,7 @@ defmodule RateLimitedServer.JobState do
 
   defp new_record(func), do: %{func: func, status: @state_waiting, result: nil}
 
-  defp ts(), do: System.monotonic_time(:second)
+  defp ts(), do: System.monotonic_time(:millisecond)
 
   # protocols
   defimpl String.Chars, for: JobState do

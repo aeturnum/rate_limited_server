@@ -23,8 +23,8 @@ defmodule RateLimitedServer do
 
   def rate_limit() do
     case Mix.env() do
-      :test -> 1
-      _ -> 60
+      :test -> 100
+      _ -> 60 * 1000
     end
   end
 end

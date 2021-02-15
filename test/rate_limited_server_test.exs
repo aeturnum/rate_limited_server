@@ -13,7 +13,7 @@ defmodule RateLimitedServerTest do
     Process.sleep(10)
     assert Jobs.job_status(queue, id1).status == :done
     assert Jobs.job_status(queue, id2).status == :waiting
-    Process.sleep(1010)
+    Process.sleep(110)
     assert Jobs.job_status(queue, id2).status == :done
   end
 
@@ -31,7 +31,7 @@ defmodule RateLimitedServerTest do
     assert Jobs.job_status(queue1, id1).status == :done
     assert Jobs.job_status(queue1, id2).status == :waiting
     assert Jobs.job_status(queue2, id4).status == :waiting
-    Process.sleep(1010)
+    Process.sleep(110)
     assert Jobs.job_status(queue1, id2).status == :done
     assert Jobs.job_status(queue2, id4).status == :done
   end
